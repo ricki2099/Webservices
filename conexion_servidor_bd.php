@@ -1,11 +1,15 @@
 <?php
- $conectado = mysql_connect ("localhost","l6000018","14sivuLEze");
- if (!$conectado)
- { echo ("NO SE PUDO CONECTAR AL SERVIDOR MySQL.<br>");
- }
- if (!mysql_select_db ("l6000018_nereo", $conectado))
- {
- echo "Error al intentar conectar con la base de datos nereo.<br>";
- exit();
- }
+
+$usuario = 'westudiante';
+$clave = 'KUALALUMPUR2013TKC';
+$servidor = '10.20.0.36';
+$puerto = '1521';
+$db = 'SUDD';
+//echo $usuario.'<br>'.$clave.'<br>'.$servidor . ':' . $puerto . '/' . $db.'<br>'.'UTF8';
+ $conectado = oci_connect ( $usuario, $clave, $servidor . ':' . $puerto . '/' . $db, 'UTF8');
+ /*if($conectado) {
+     return $enlace;
+ } else {
+     $error =oci_error();
+ }*/
 ?>
