@@ -1,5 +1,5 @@
 <?php
-
+ $conectado = mysql_connect ("localhost","l6000018","14sivuLEze");
  if (!$conectado)
  { echo ("NO SE PUDO CONECTAR AL SERVIDOR MySQL.<br>");
  }
