@@ -20,23 +20,29 @@ document.write('<br>Fecha: '+d.getDate(),
 
 <?php
 require("conexion_servidor_bd.php");
-session_start();
-$cod=$_SESSION['codigo'];
-$consultar_registros="SELECT EST_COD,EST_NOMBRE FROM accest WHERE EST_COD=(20122078098);";
-$registros=mysql_db_query("l6000018_nereo",$consultar_registros,$conectado);
-$totalregistros=mysql_num_rows($registros);
-for ($contador=0;$contador<$totalregistros;$contador++)
-{
 
-$EST_COD=mysql_result($registros,$contador,"EST_COD");
-$EST_NOMBRE =mysql_result($registros,$contador,"EST_NOMBRE");
-echo("Código: ".$EST_COD);
-echo('<br>Nombre: '.$EST_NOMBRE);
+$consultar_registros="SELECT EST_COD,EST_NOMBRE FROM acest WHERE EST_COD=(20051085002)";
+//echo $consultar_registros;
+$cadenaParser = OCIParse($conectado,$consultar_registros);
 
+$busqueda=OCIExecute($cadenaParser);
 
-
-
+if ($busqueda) {
+	// carga una a una las filas en $this->registro
+	while ( $row = oci_fetch_array ( $cadenaParser, OCI_BOTH ) ) {
+		$registro [] = $row;
+	}
+			
+	// si por lo menos una fila es cargada a $this->registro entonces cuenta
+	if (isset ( $registro )) {
+		$conteo = count ( $registro );
+	}
 }
+
+//var_dump($registro);exit;
+
+echo("Código: ".$registro[0]['EST_COD']);
+echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
 
 ?>
 <table border="2" cellpadding="2" cellspacing="0" align="center">
@@ -55,10 +61,9 @@ echo('<br>Nombre: '.$EST_NOMBRE);
 
 <?php
 require("conexion_servidor_bd.php");
-session_start();
-$cod=$_SESSION['codigo'];
-$consultar_registros=" SELECT EST_COD,EST_NOMBRE,EST_NRO_IDEN,INS_ASI_COD,ASI_NOMBRE,CUR_CRA_COD CODIGOCRA,CUR_GRUPO GRUPO, DIA_NOMBRE,achorarios.HOR_HORA,achorarios.HOR_SAL_ID_ESPACIO,SED_NOM,EDI_NOMBRE,gesalones.SAL_NOMBRE,acdocente.DOC_APELLIDO APELLIDO,acdocente.DOC_NOMBRE DOCENTE,DOC_EMAIL,DOC_EMAIL_INS
-FROM accest
+
+$consultar_registros=" SELECT EST_COD,EST_NOMBRE,EST_NRO_IDEN,INS_ASI_COD,ASI_NOMBRE,CUR_CRA_COD CODIGOCRA,CUR_GRUPO GRUPO, DIA_NOMBRE,DIA_COD,achorarios.HOR_HORA,achorarios.HOR_SAL_ID_ESPACIO,SED_NOMBRE,EDI_NOMBRE,gesalones.SAL_NOMBRE,acdocente.DOC_APELLIDO APELLIDO,acdocente.DOC_NOMBRE DOCENTE,DOC_EMAIL,DOC_EMAIL_INS
+FROM acest
 INNER JOIN acins ON INS_EST_COD=EST_COD
 INNER JOIN acasi ON ASI_COD=INS_ASI_COD
 INNER JOIN accursos ON CUR_ID=INS_GR
@@ -71,28 +76,35 @@ LEFT OUTER JOIN accargas ON CAR_HOR_ID=HOR_ID
 LEFT OUTER JOIN acdocente ON DOC_NRO_IDEN=CAR_DOC_NRO
 INNER JOIN acasperi ON APE_ANO=INS_ANO AND APE_PER=INS_PER
 WHERE APE_ESTADO='A'
-AND EST_COD IN (20122078098)
-ORDER BY DIA_NOMBRE,EST_COD,ASI_COD,CODIGOCRA,GRUPO,HOR_HORA;";
-$registros=mysql_db_query("l6000018_nereo",$consultar_registros,$conectado);
-$totalregistros=mysql_num_rows($registros);
-for ($contador=0;$contador<$totalregistros;$contador++)
-{
+AND EST_COD IN (20051085002)
+ORDER BY DIA_COD,DIA_NOMBRE,EST_COD,ASI_COD,CODIGOCRA,GRUPO,HOR_HORA";
 
-$INS_ASI_COD=mysql_result($registros,$contador,"INS_ASI_COD");
-$ASI_NOMBRE=mysql_result($registros,$contador,"ASI_NOMBRE");
-$CODIGOCRA=mysql_result($registros,$contador,"CODIGOCRA");
-$GRUPO=mysql_result($registros,$contador,"GRUPO");
-$DIA_NOMBRE=mysql_result($registros,$contador,"DIA_NOMBRE");
-$HOR_HORA=mysql_result($registros,$contador,"HOR_HORA");
-$HOR_SAL_ID_ESPACIO=mysql_result($registros,$contador,"HOR_SAL_ID_ESPACIO");
-$SED_NOM=mysql_result($registros,$contador,"SED_NOM");
-$EDI_NOMBRE=mysql_result($registros,$contador,"EDI_NOMBRE");
-$SAL_NOMBRE=mysql_result($registros,$contador,"SAL_NOMBRE");
-$DOCENTE=mysql_result($registros,$contador,"DOCENTE");
-$APELLIDO=mysql_result($registros,$contador,"APELLIDO");
+$cadenaParser = OCIParse($conectado,$consultar_registros);
 
+$busqueda=OCIExecute($cadenaParser);
 
+if ($busqueda) {
+        while ($tabla=oci_fetch_array($cadenaParser, OCI_BOTH)){
+                $datos[]=$tabla;
+        }
+}
 
+//var_dump($datos);exit;
+
+foreach ($datos AS $dato) {
+
+$INS_ASI_COD=$dato["INS_ASI_COD"];
+$ASI_NOMBRE=$dato["ASI_NOMBRE"];
+$CODIGOCRA=$dato["CODIGOCRA"];
+$GRUPO=$dato["GRUPO"];
+$DIA_NOMBRE=$dato["DIA_NOMBRE"];
+$HOR_HORA=$dato["HOR_HORA"];
+$HOR_SAL_ID_ESPACIO=$dato["HOR_SAL_ID_ESPACIO"];
+$SED_NOM=$dato["SED_NOMBRE"];
+$EDI_NOMBRE=$dato["EDI_NOMBRE"];
+$SAL_NOMBRE=$dato["SAL_NOMBRE"];
+$DOCENTE=isset($dato["DOCENTE"])?$dato["DOCENTE"]:'';
+$APELLIDO=isset($dato["APELLIDO"])?$dato["APELLIDO"]:'';
 
 echo("<td>".$INS_ASI_COD."</td>");
 echo("<td>".$ASI_NOMBRE."</td>");
@@ -107,9 +119,7 @@ echo("-".$SAL_NOMBRE."</td>");
 echo("<td>".$DOCENTE);
 echo(" ".$APELLIDO."</td></tr>");
 
-
 }
-
 ?>
 </table>
 

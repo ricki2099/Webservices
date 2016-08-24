@@ -19,19 +19,30 @@ document.write('<br>Fecha: '+d.getDate(),
 <h3 align="center">  <input name="boton"  type="button" onClick="javascript:window.print(); " value="Guardar:" style="width:100px; height:50px " /></h3>
 <?php
 require("conexion_servidor_bd.php");
-session_start();
-$cod=$_SESSION['codigo'];
-$consultar_registros="SELECT EST_COD,EST_NOMBRE FROM accest WHERE EST_COD=(20122078098);";
-$registros=mysql_db_query("l6000018_nereo",$consultar_registros,$conectado);
-$totalregistros=mysql_num_rows($registros);
-for ($contador=0;$contador<$totalregistros;$contador++)
-{
 
-$EST_COD=mysql_result($registros,$contador,"EST_COD");
-$EST_NOMBRE =mysql_result($registros,$contador,"EST_NOMBRE");
-echo("Código: ".$EST_COD);
-echo('<br>Nombre: '.$EST_NOMBRE);
+$consultar_registros="SELECT EST_COD,EST_NOMBRE FROM acest WHERE EST_COD=(20051085002)";
+
+$cadenaParser = OCIParse($conectado,$consultar_registros);
+
+$busqueda=OCIExecute($cadenaParser);
+
+if ($busqueda) {
+        // carga una a una las filas en $this->registro 
+        while ( $row = oci_fetch_array ( $cadenaParser, OCI_BOTH ) ) {
+                $registro [] = $row;
+        }
+                        
+        // si por lo menos una fila es cargada a $this->registro entonces cuenta
+        if (isset ( $registro )) {
+                $conteo = count ( $registro );
+        }
 }
+
+//var_dump($registro);exit;
+
+echo("Código: ".$registro[0]['EST_COD']);
+echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
+
 
 ?>
 <table border="2" cellpadding="2" cellspacing="0" align="center">
@@ -75,7 +86,7 @@ $consultar_registros="SELECT DISTINCT
   CUR_CRA_COD||'-'||CUR_GRUPO GRUPO,
   INS_EST_COD COD_EST,
   EST_NOMBRE NOMBRE_ESTUDIANTE,
-  ELT (NOB_NOMBRE,'SIN OBSERVACION','',NOB_NOMBRE) OBS,
+  DECODE (NOB_NOMBRE,'SIN OBSERVACION','',NOB_NOMBRE) OBS,
   INS_ANO ANO,
   INS_PER PERIODO,
   CUR_PAR1 PPAR,
@@ -103,7 +114,7 @@ $consultar_registros="SELECT DISTINCT
   FROM acins
 INNER JOIN accursos ON CUR_ID=INS_GR
 INNER JOIN achorarios ON HOR_ID_CURSO=CUR_ID
-INNER JOIN accest ON EST_COD=INS_EST_COD
+INNER JOIN acest ON EST_COD=INS_EST_COD
 INNER JOIN acasi ON ASI_COD=INS_ASI_COD
 INNER JOIN acasperi ON APE_ANO=INS_ANO AND APE_PER=INS_PER
 LEFT OUTER JOIN acnotobs ON NOB_COD=INS_OBS
@@ -111,39 +122,49 @@ LEFT OUTER JOIN accargas ON CAR_HOR_ID=HOR_ID
 LEFT OUTER JOIN acdocente ON DOC_NRO_IDEN=CAR_DOC_NRO
 WHERE HOR_ESTADO='A'
 AND APE_ESTADO='A'
-AND EST_COD IN (20122078098)
-ORDER BY INS_ANO,INS_PER,INS_EST_COD,INS_ASI_COD,CUR_CRA_COD||'-'||CUR_GRUPO;";
-$registros=mysql_db_query("l6000018_nereo",$consultar_registros,$conectado);
-$totalregistros=mysql_num_rows($registros);
-for ($contador=0;$contador<$totalregistros;$contador++)
-{
-$COD_ESPACIO=mysql_result($registros,$contador,"COD_ESPACIO");
-$NOMBRE_ESPACIO=mysql_result($registros,$contador,"NOMBRE_ESPACIO");
+AND EST_COD IN (20051085002)
+ORDER BY INS_ANO,INS_PER,INS_EST_COD,INS_ASI_COD,CUR_CRA_COD||'-'||CUR_GRUPO";
+//echo $consultar_registros;
+$cadenaParser = OCIParse($conectado,$consultar_registros);
 
-$COD_EST=mysql_result($registros,$contador,"COD_EST");
-$NOMBRE_ESTUDIANTE=mysql_result($registros,$contador,"NOMBRE_ESTUDIANTE");
-$OBS=mysql_result($registros,$contador,"OBS");
-$ANO=mysql_result($registros,$contador,"ANO");
-$PERIODO=mysql_result($registros,$contador,"PERIODO");
-$PPAR=mysql_result($registros,$contador,"PPAR");
-$NOTA_PAR1=mysql_result($registros,$contador,"NOTA_PAR1");
-$PPAR2=mysql_result($registros,$contador,"PPAR2");
-$NOTA_PAR2=mysql_result($registros,$contador,"NOTA_PAR2");
-$PPAR3=mysql_result($registros,$contador,"PPAR3");
-$NOTA_PAR3=mysql_result($registros,$contador,"NOTA_PAR3");
-$PPAR4=mysql_result($registros,$contador,"PPAR4");
-$NOTA_PAR4=mysql_result($registros,$contador,"NOTA_PAR4");
-$PPAR5=mysql_result($registros,$contador,"PPAR5");
-$NOTA_PAR5=mysql_result($registros,$contador,"NOTA_PAR5");
-$PPAR6=mysql_result($registros,$contador,"PPAR6");
-$NOTA_PAR6=mysql_result($registros,$contador,"NOTA_PAR6");
-$PLAB=mysql_result($registros,$contador,"PLAB");
-$NOTA_LAB=mysql_result($registros,$contador,"NOTA_LAB");
-$PEXA=mysql_result($registros,$contador,"PEXA");
-$NOTA_EXA=mysql_result($registros,$contador,"NOTA_EXA");
-$PHAB=mysql_result($registros,$contador,"PHAB");
-$NOTA_HAB=mysql_result($registros,$contador,"NOTA_HAB");
-$NOTA_DEF=mysql_result($registros,$contador,"NOTA_DEF");
+$busqueda=OCIExecute($cadenaParser);
+
+if ($busqueda) {
+        while ($tabla=oci_fetch_array($cadenaParser, OCI_BOTH)){
+                $datos[]=$tabla;
+        }
+}
+
+//var_dump($datos);
+
+foreach($datos AS $dato){
+$COD_ESPACIO=$dato["COD_ESPACIO"];
+$NOMBRE_ESPACIO=$dato["NOMBRE_ESPACIO"];
+
+$COD_EST=$dato["COD_EST"];
+$NOMBRE_ESTUDIANTE=$dato["NOMBRE_ESTUDIANTE"];
+$OBS=isset($dato["OBS"])?$dato["OBS"]:'';
+$ANO=$dato["ANO"];
+$PERIODO=$dato["PERIODO"];
+$PPAR=isset($dato["PPAR"])?$dato["PPAR"]:'';
+$NOTA_PAR1=isset($dato["NOTA_PAR1"])?$dato["NOTA_PAR1"]:'';
+$PPAR2=isset($dato["PPAR2"])?$dato["PPAR2"]:'';
+$NOTA_PAR2=isset($dato["NOTA_PAR2"])?$dato["NOTA_PAR2"]:'';
+$PPAR3=isset($dato["PPAR3"])?$dato["PPAR3"]:'';
+$NOTA_PAR3=isset($dato["NOTA_PAR3"])?$dato["NOTA_PAR3"]:'';
+$PPAR4=isset($dato["PPAR4"])?$dato["PPAR4"]:'';
+$NOTA_PAR4=isset($dato["NOTA_PAR4"])?$dato["NOTA_PAR4"]:'';
+$PPAR5=isset($dato["PPAR5"])?$dato["PPAR5"]:'';
+$NOTA_PAR5=isset($dato["NOTA_PAR5"])?$dato["NOTA_PAR5"]:'';
+$PPAR6=isset($dato["PPAR6"])?$dato["PPAR6"]:'';
+$NOTA_PAR6=isset($dato["NOTA_PAR6"])?$dato["NOTA_PAR6"]:'';
+$PLAB=isset($dato["PLAB"])?$dato["PLAB"]:'';
+$NOTA_LAB=isset($dato["NOTA_LAB"])?$dato["NOTA_LAB"]:'';
+$PEXA=isset($dato["PEXA"])?$dato["PEXA"]:'';
+$NOTA_EXA=isset($dato["NOTA_EXA"])?$dato["NOTA_EXA"]:'';
+$PHAB=isset($dato["PHAB"])?$dato["PHAB"]:'';
+$NOTA_HAB=isset($dato["NOTA_HAB"])?$dato["NOTA_HAB"]:'';
+$NOTA_DEF=isset($dato["NOTA_DEF"])?$dato["NOTA_DEF"]:'';
 
 
 echo("<tr><td>".$COD_ESPACIO."</td>");
