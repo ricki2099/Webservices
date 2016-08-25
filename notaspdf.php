@@ -84,7 +84,7 @@ echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
 
 <?php
 require("conexion_servidor_bd.php");
-$usuario = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
+
 if ($usuario != '') {
 $consultar_registros="SELECT DISTINCT
   INS_ASI_COD COD_ESPACIO,
