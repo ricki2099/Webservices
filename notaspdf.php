@@ -23,7 +23,7 @@ require("conexion_servidor_bd.php");
 $codigo = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
 
 if ($codigo != '') {
-$consultar_registros="SELECT EST_COD,EST_NOMBRE FROM acest WHERE EST_COD=(."$codigo".)";
+$consultar_registros="SELECT EST_COD,EST_NOMBRE FROM acest WHERE EST_COD=(".$codigo.")";
 
 $cadenaParser = OCIParse($conectado,$consultar_registros);
 
@@ -126,7 +126,7 @@ LEFT OUTER JOIN accargas ON CAR_HOR_ID=HOR_ID
 LEFT OUTER JOIN acdocente ON DOC_NRO_IDEN=CAR_DOC_NRO
 WHERE HOR_ESTADO='A'
 AND APE_ESTADO='A'
-AND EST_COD IN (."$codigo.")
+AND EST_COD IN (".$codigo.")
 ORDER BY INS_ANO,INS_PER,INS_EST_COD,INS_ASI_COD,CUR_CRA_COD||'-'||CUR_GRUPO";
 //echo $consultar_registros;
 $cadenaParser = OCIParse($conectado,$consultar_registros);
