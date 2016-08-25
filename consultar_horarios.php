@@ -29,7 +29,7 @@ if ($busqueda) {
 		$datos[]=$tabla;
 	}	
 }
-} else {
+ else {
 	$datos = array('No se ingresó ningún código');
 }
 echo json_encode($datos);
