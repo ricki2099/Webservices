@@ -1,7 +1,7 @@
 <?php
 require("conexion_servidor_bd.php");
-$usuario = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
-if ($usuario != '') {
+$codigo = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
+if ($codigo != '') {
 $consultar_registros = "SELECT DISTINCT
   INS_ASI_COD COD_ESPACIO,
   ASI_NOMBRE NOMBRE_ESPACIO,
@@ -44,7 +44,7 @@ LEFT OUTER JOIN ACCARGAS ON CAR_HOR_ID=HOR_ID
 LEFT OUTER JOIN ACDOCENTE ON DOC_NRO_IDEN=CAR_DOC_NRO
 WHERE HOR_ESTADO='A'
 AND APE_ESTADO='A'
-AND EST_COD IN (".$usuario.")
+AND EST_COD IN (".$codigo.")
 ORDER BY INS_ANO,INS_PER,INS_EST_COD,INS_ASI_COD,CUR_CRA_COD||'-'||CUR_GRUPO";
 
 //echo $consultar_registros; 20051085002
@@ -57,7 +57,7 @@ if ($busqueda) {
                 $datos[]=$tabla;
         }
 }
- else {
+} else {
 	$datos = array('No se ingresó ningún código');
 }
 echo json_encode($datos);

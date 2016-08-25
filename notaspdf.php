@@ -19,9 +19,11 @@ document.write('<br>Fecha: '+d.getDate(),
 <h3 align="center">  <input name="boton"  type="button" onClick="javascript:window.print(); " value="Guardar:" style="width:100px; height:50px " /></h3>
 <?php
 require("conexion_servidor_bd.php");
-$usuario = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
-if ($usuario != '') {
-$consultar_registros="SELECT EST_COD,EST_NOMBRE FROM acest WHERE EST_COD=(."$usuario".)";
+
+$codigo = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
+
+if ($codigo != '') {
+$consultar_registros="SELECT EST_COD,EST_NOMBRE FROM acest WHERE EST_COD=(."$codigo".)";
 
 $cadenaParser = OCIParse($conectado,$consultar_registros);
 
@@ -37,9 +39,6 @@ if ($busqueda) {
         if (isset ( $registro )) {
                 $conteo = count ( $registro );
         }
-}
-} else {
-	$datos = array('No se ingresó ningún código');
 }
 //var_dump($registro);exit;
 
@@ -85,7 +84,6 @@ echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
 <?php
 require("conexion_servidor_bd.php");
 
-if ($usuario != '') {
 $consultar_registros="SELECT DISTINCT
   INS_ASI_COD COD_ESPACIO,
   ASI_NOMBRE NOMBRE_ESPACIO,
@@ -128,7 +126,7 @@ LEFT OUTER JOIN accargas ON CAR_HOR_ID=HOR_ID
 LEFT OUTER JOIN acdocente ON DOC_NRO_IDEN=CAR_DOC_NRO
 WHERE HOR_ESTADO='A'
 AND APE_ESTADO='A'
-AND EST_COD IN (."$usuario.")
+AND EST_COD IN (."$codigo.")
 ORDER BY INS_ANO,INS_PER,INS_EST_COD,INS_ASI_COD,CUR_CRA_COD||'-'||CUR_GRUPO";
 //echo $consultar_registros;
 $cadenaParser = OCIParse($conectado,$consultar_registros);
@@ -139,9 +137,6 @@ if ($busqueda) {
         while ($tabla=oci_fetch_array($cadenaParser, OCI_BOTH)){
                 $datos[]=$tabla;
         }
-}
-} else {
-	$datos = array('No se ingresó ningún código');
 }
 //var_dump($datos);
 
@@ -204,6 +199,9 @@ echo("<td>".$OBS."</td></tr>");
 
 }
 
+} else {
+        $datos = array('No se ingresó ningún código');
+}
 ?>
 </table>
 
