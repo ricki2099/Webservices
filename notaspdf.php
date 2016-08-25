@@ -19,8 +19,9 @@ document.write('<br>Fecha: '+d.getDate(),
 <h3 align="center">  <input name="boton"  type="button" onClick="javascript:window.print(); " value="Guardar:" style="width:100px; height:50px " /></h3>
 <?php
 require("conexion_servidor_bd.php");
-
-$consultar_registros="SELECT EST_COD,EST_NOMBRE FROM acest WHERE EST_COD=(20051085002)";
+$usuario = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
+if ($usuario != '') {
+$consultar_registros="SELECT EST_COD,EST_NOMBRE FROM acest WHERE EST_COD=(."$usuario".)";
 
 $cadenaParser = OCIParse($conectado,$consultar_registros);
 
@@ -37,7 +38,9 @@ if ($busqueda) {
                 $conteo = count ( $registro );
         }
 }
-
+} else {
+	$datos = array('No se ingresó ningún código');
+}
 //var_dump($registro);exit;
 
 echo("Código: ".$registro[0]['EST_COD']);
@@ -46,7 +49,7 @@ echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
 
 ?>
 <table border="2" cellpadding="2" cellspacing="0" align="center">
-<tr><th colspan="6">Notas</th></tr>
+<tr><th colspan="32">Notas</th></tr>
 <tr>
 <th>Cod Asig</th>
 <th>Asignatura</th>
@@ -81,6 +84,8 @@ echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
 
 <?php
 require("conexion_servidor_bd.php");
+$usuario = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
+if ($usuario != '') {
 $consultar_registros="SELECT DISTINCT
   INS_ASI_COD COD_ESPACIO,
   ASI_NOMBRE NOMBRE_ESPACIO,
@@ -123,7 +128,7 @@ LEFT OUTER JOIN accargas ON CAR_HOR_ID=HOR_ID
 LEFT OUTER JOIN acdocente ON DOC_NRO_IDEN=CAR_DOC_NRO
 WHERE HOR_ESTADO='A'
 AND APE_ESTADO='A'
-AND EST_COD IN (20051085002)
+AND EST_COD IN (."$usuario.")
 ORDER BY INS_ANO,INS_PER,INS_EST_COD,INS_ASI_COD,CUR_CRA_COD||'-'||CUR_GRUPO";
 //echo $consultar_registros;
 $cadenaParser = OCIParse($conectado,$consultar_registros);
@@ -135,7 +140,9 @@ if ($busqueda) {
                 $datos[]=$tabla;
         }
 }
-
+} else {
+	$datos = array('No se ingresó ningún código');
+}
 //var_dump($datos);
 
 foreach($datos AS $dato){
