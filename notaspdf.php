@@ -73,6 +73,7 @@ echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
 <th>%</th>
 <th>Nota</th>
 <th>%</th>
+<th>Acu</th>
 <th>Def</th>
 <th>Obs</th>
 
