@@ -134,7 +134,7 @@ echo("<td>".$ASI_NOMBRE."</td>");
 echo("<td>".$CODIGOCRA);
 echo("-".$GRUPO."</td>");
 echo("<td align=center>".$DIA_NOMBRE."</td>");
-echo("<td align=center><br>".$HOR_HORA."</td>");
+echo("<td align=center>".$HOR_HORA."</td>");
 echo("<td>".$SED_NOM."</td>");
 echo("<td>".$EDI_NOMBRE);
 echo("-".$SAL_NOMBRE."</td>");
