@@ -43,10 +43,10 @@ if ($busqueda) {
 	$datos = array('No se ingresó ningún código');exit;
 }
 //var_dump($registro);exit;
-echo("<align=center");
-echo("<align=center>""Código: ".$registro[0]['EST_COD']);
+
+echo("<align=center>"."Código: ".$registro[0]['EST_COD']);
 echo("<br>Nombre: <align=center>".$registro[0]['EST_NOMBRE']);
-echo(">");
+
 ?>
 <table border="2" cellpadding="2" cellspacing="0" align="center">
   <tr><th colspan="8">Horario</th></tr>
