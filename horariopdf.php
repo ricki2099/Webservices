@@ -44,8 +44,8 @@ if ($busqueda) {
 }
 //var_dump($registro);exit;
 
-echo("Código: ".$registro[0]['EST_COD']);
-echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
+echo("Código:<align=center> ".$registro[0]['EST_COD']);
+echo("<br>Nombre: <align=center>".$registro[0]['EST_NOMBRE']);
 
 ?>
 <table border="2" cellpadding="2" cellspacing="0" align="center">
@@ -129,12 +129,12 @@ $SAL_NOMBRE=$dato["SAL_NOMBRE"];
 $DOCENTE=isset($dato["DOCENTE"])?$dato["DOCENTE"]:'';
 $APELLIDO=isset($dato["APELLIDO"])?$dato["APELLIDO"]:'';
 
-echo("<td>".$INS_ASI_COD."</td>");
+echo("<td align=center>".$INS_ASI_COD."</td>");
 echo("<td>".$ASI_NOMBRE."</td>");
 echo("<td>".$CODIGOCRA);
 echo("-".$GRUPO."</td>");
 echo("<td align=center>".$DIA_NOMBRE."</td>");
-echo("<td><br>".$HOR_HORA."</td>");
+echo("<td align=center><br>".$HOR_HORA."</td>");
 echo("<td>".$SED_NOM."</td>");
 echo("<td>".$EDI_NOMBRE);
 echo("-".$SAL_NOMBRE."</td>");
