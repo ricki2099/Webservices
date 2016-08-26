@@ -48,7 +48,7 @@ echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
 
 ?>
 <table border="2" cellpadding="2" cellspacing="0" align="center">
-<tr><th colspan="32">Notas</th></tr>
+<tr><th colspan="31">Notas</th></tr>
 <tr>
 <th>Cod Asig</th>
 <th>Asignatura</th>
@@ -56,13 +56,13 @@ echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
 
 <th>Periodo</th>
 
-<th></th>
+
 <th>%</th>
 <th>Nota</th>
 <th>%</th>
 <th>Nota</th>
 <th>%</th>
-<th>Notath>
+<th>Nota</th>
 <th>%</th>
 <th>Nota</th>
 <th>%</th>
@@ -170,32 +170,32 @@ $NOTA_HAB=isset($dato["NOTA_HAB"])?$dato["NOTA_HAB"]:'';
 $NOTA_DEF=isset($dato["NOTA_DEF"])?$dato["NOTA_DEF"]:'';
 
 
-echo("<tr><td>".$COD_ESPACIO."</td>");
+echo("<tr><td aling=center>".$COD_ESPACIO."</td>");
 echo("<td>".$NOMBRE_ESPACIO."</td>");
 
 echo("<td>".$ANO);
 echo("-".$PERIODO."</td>");
-echo("<td>".$PPAR."</td>");
-echo("<td>".$NOTA_PAR1."</td>");
-echo("<td>".$PPAR2."</td>");
-echo("<td>".$NOTA_PAR2."</td>");
-echo("<td>".$PPAR3."</td>");
-echo("<td>".$NOTA_PAR3."</td>");
-echo("<td>".$PPAR4."</td>");
-echo("<td>".$NOTA_PAR4."</td>");
-echo("<td>".$PPAR5."</td>");
-echo("<td>".$NOTA_PAR5."</td>");
-echo("<td>".$PPAR6."</td>");
-echo("<td>".$NOTA_PAR6."</td>");
-echo("<td>".$PLAB."</td>");
-echo("<td>".$NOTA_LAB."</td>");
-echo("<td>".$PLAB."</td>");
-echo("<td>".$PEXA."</td>");
-echo("<td>".$NOTA_EXA."</td>");
-echo("<td>".$PHAB."</td>");
-echo("<td>".$NOTA_HAB."</td>");
-echo("<td>".$NOTA_DEF."</td>");
-echo("<td>".$OBS."</td></tr>");
+echo("<td aling=center>".$PPAR."</td>");
+echo("<td aling=center>".$NOTA_PAR1."</td>");
+echo("<td aling=center>".$PPAR2."</td>");
+echo("<td aling=center>".$NOTA_PAR2."</td>");
+echo("<td aling=center>".$PPAR3."</td>");
+echo("<td aling=center>".$NOTA_PAR3."</td>");
+echo("<td aling=center>".$PPAR4."</td>");
+echo("<td aling=center>".$NOTA_PAR4."</td>");
+echo("<td aling=center>".$PPAR5."</td>");
+echo("<td aling=center>".$NOTA_PAR5."</td>");
+echo("<td aling=center>".$PPAR6."</td>");
+echo("<td aling=center>".$NOTA_PAR6."</td>");
+echo("<td aling=center>".$PLAB."</td>");
+echo("<td aling=center>".$NOTA_LAB."</td>");
+echo("<td aling=center>".$PLAB."</td>");
+echo("<td aling=center>".$PEXA."</td>");
+echo("<td aling=center>".$NOTA_EXA."</td>");
+echo("<td aling=center>".$PHAB."</td>");
+echo("<td aling=center>".$NOTA_HAB."</td>");
+echo("<td aling=center>".$NOTA_DEF."</td>");
+echo("<td aling=center>".$OBS."</td></tr>");
 
 }
 
