@@ -56,7 +56,7 @@ echo('<br>Nombre: '.$registro[0]['EST_NOMBRE']);
 
 <th>Periodo</th>
 
-<th>Nota</th>
+<th></th>
 <th>%</th>
 <th>Nota</th>
 <th>%</th>
