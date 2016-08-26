@@ -133,7 +133,7 @@ echo("<td>".$INS_ASI_COD."</td>");
 echo("<td>".$ASI_NOMBRE."</td>");
 echo("<td>".$CODIGOCRA);
 echo("-".$GRUPO."</td>");
-echo("<td>".$DIA_NOMBRE."</td>");
+echo("<td>align=center".$DIA_NOMBRE."</td>");
 echo("<td><br>".$HOR_HORA."</td>");
 echo("<td>".$SED_NOM."</td>");
 echo("<td>".$EDI_NOMBRE);
