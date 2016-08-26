@@ -34,20 +34,16 @@ $busqueda=OCIExecute($cadenaParser);
 	$datos = array('No se ingresó ningún código');
 }
 
-$horario = array();
-$i = 0;
 $j = 0;
 
 foreach($datos AS $dato) {
-	if($i==0){ 
+	if(!isset($horario)){ 
 		$horario[] = $dato;
-		$i++;
 	} else { 
 		if ($dato['INS_ASI_COD'] == $horario[$j]['INS_ASI_COD']) {
 			$horario[$j]['HOR_HORA'].='-'.($dato['HOR_HORA']+1); 
 		} else {
 			$horario[] = $dato;
-			$i++;
 			$j++;
 		}
 	}
