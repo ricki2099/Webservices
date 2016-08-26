@@ -1,6 +1,7 @@
 <?php
 require("conexion_servidor_bd.php");
 $codigo = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
+$datos = array();
 if ($codigo != '') {
 $consultar_registros=" SELECT  EST_COD,EST_NOMBRE,EST_NRO_IDEN,INS_ASI_COD,ASI_NOMBRE,CUR_CRA_COD CODIGOCRA,CUR_GRUPO GRUPO, DIA_NOMBRE,DIA_COD,achorarios.HOR_HORA,achorarios.HOR_SAL_ID_ESPACIO,SED_NOMBRE,EDI_NOMBRE,gesalones.SAL_NOMBRE,acdocente.DOC_APELLIDO APELLIDO,acdocente.DOC_NOMBRE DOCENTE,DOC_EMAIL,DOC_EMAIL_INS
 FROM acest
@@ -24,15 +25,33 @@ $cadenaParser = OCIParse($conectado,$consultar_registros);
 
 $busqueda=OCIExecute($cadenaParser);
 
-if ($busqueda) {
-	while ($tabla=oci_fetch_array($cadenaParser, OCI_BOTH)){
-		$datos[]=$tabla;
-	}	
-}
-}
- else {
+	if ($busqueda) {
+		while ($tabla=oci_fetch_array($cadenaParser, OCI_BOTH)){
+			$datos[]=$tabla;
+		}	
+	}
+} else {
 	$datos = array('No se ingresó ningún código');
 }
-echo json_encode($datos);
 
+$horario = array();
+$i = 0;
+$j = 0;
+
+foreach($datos AS $dato) {
+	if($i==0){ 
+		$horario[] = $dato;
+		$i++;
+	} else { 
+		if ($dato['INS_ASI_COD'] == $horario[$j]['INS_ASI_COD']) {
+			$horario[$j]['HOR_HORA'].='-'.($dato['HOR_HORA']+1); 
+		} else {
+			$horario[] = $dato;
+			$i++;
+			$j++;
+		}
+	}
+}
+
+echo json_encode($horario);
 ?>
