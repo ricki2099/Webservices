@@ -40,7 +40,7 @@ foreach($datos AS $dato) {
 	if(!isset($horario)){ 
 		$horario[] = $dato;
 	} else { 
-		if ($dato['INS_ASI_COD'] == $horario[$j]['INS_ASI_COD']) {
+		if (($dato['INS_ASI_COD'] == $horario[$j]['INS_ASI_COD']) && ($dato['DIA_COD'] == $horario[$j]['DIA_COD'])) {
 			$horario[$j]['HOR_HORA'].='-'.($dato['HOR_HORA']+1); 
 		} else {
 			$horario[] = $dato;
