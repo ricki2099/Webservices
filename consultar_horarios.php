@@ -1,5 +1,13 @@
 <?php
 require("conexion_servidor_bd.php");
+
+function response($code=200, $status="", $message="") {
+    http_response_code($code);
+    if( !empty($status) && !empty($message) ){
+        $response = array("status" => $status ,"message"=>$message);  
+        echo json_encode($response,JSON_PRETTY_PRINT);    
+    }            
+ }
 $codigo = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
 $datos = array();
 if ($codigo != '') {
