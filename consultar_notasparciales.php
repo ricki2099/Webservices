@@ -1,18 +1,15 @@
 <?php
 require("conexion_servidor_bd.php");
 $codigo = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
-if( isset($_GET['codEstudiante']) ) {
-        $jsondata['success'] = true;
-        $jsondata['message'] = 'Valor recibido es correcto.';
-        echo json_encode($jsondata);
 
-    } else {
+function response($code=200, $status="", $message="") {
+    http_response_code($code);
+    if( !empty($status) && !empty($message) ){
+        $response = array("status" => $status ,"message"=>$message);  
+        echo json_encode($response,JSON_PRETTY_PRINT);    
+    }            
+ }
 
-      $jsondata['success'] = false;
-        $jsondata['message'] = 'Valor recibido no es correcto.';
-        echo json_encode($jsondata);
-
-    }
 if ($codigo != '') {
 $consultar_registros = "SELECT DISTINCT
   INS_ASI_COD COD_ESPACIO,
