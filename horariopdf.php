@@ -20,6 +20,14 @@ document.write('<br>Fecha: '+d.getDate(),
 
 <?php
 require("conexion_servidor_bd.php");
+
+function response($code=200, $status="", $message="") {
+    http_response_code($code);
+    if( !empty($status) && !empty($message) ){
+        $response = array("status" => $status ,"message"=>$message);  
+        echo json_encode($response,JSON_PRETTY_PRINT);    
+    }            
+ }
 $codigo = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
 if ($codigo != '') {
 $consultar_registros="SELECT EST_COD,EST_NOMBRE FROM acest WHERE EST_COD=(".$codigo.")";
