@@ -2,15 +2,15 @@
 require("conexion_servidor_bd.php");
 $codigo = isset($_GET['codEstudiante'])?$_GET['codEstudiante']:'';
 if( isset($_GET['codEstudiante']) ) {
-     //   $jsondata['success'] = true;
+        $jsondata['success'] = true;
         $jsondata['message'] = 'Valor recibido es correcto.';
-        echo ($jsondata);
+        echo json_encode($jsondata);
 
     } else {
 
-       // $jsondata['success'] = false;
+      $jsondata['success'] = false;
         $jsondata['message'] = 'Valor recibido no es correcto.';
-        echo ($jsondata);
+        echo json_encode($jsondata);
 
     }
 if ($codigo != '') {
