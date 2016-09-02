@@ -1,7 +1,7 @@
 <?php
 require("conexion_servidor_bd.php");
 $consultar_registros="SELECT * FROM noticia ";
-oci_parse('SET CHARACTER SET utf8');
+//oci_parse('SET CHARACTER SET utf8');
 // se cambia esta linea
 $registros=OCIParse($conectado,$consultar_registros);
 //$totalregistros=mysql_num_rows($registros);
